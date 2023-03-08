@@ -1,13 +1,17 @@
 package budgetCalendar;
+import java.util.Calendar;
 import java.util.Date;
-
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class monthlyTransaction {
-	double cash; 
-	Long date; //we might have to convert date into calendar format later
-	public monthlyTransaction(double cash, Long date) {
+	private double cash; 
+	private String dateString; //figuring it out
+	private Date date;
+	public monthlyTransaction(double cash, String dateString) {
 		this.cash = cash;
-		this.date = date;
+		
 		
 	}
 	void setIncome(double cash) {
@@ -15,8 +19,8 @@ public class monthlyTransaction {
 		
 	}
 
-	void setDate(Long date) {
-		this.date = date;
+	void setDate(String date) {
+		
 	}
 	
 	void printIncome() {
