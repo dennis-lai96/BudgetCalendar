@@ -20,6 +20,9 @@ public class Main {
         JOE.addTransaction(MOWING);
         JOE.printTransactions();
 
+        //implement a gui
+        //learn conversion between LocalDate and Calendar class in swing.
+
 
     }
 }
