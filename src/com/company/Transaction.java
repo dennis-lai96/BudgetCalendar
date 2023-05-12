@@ -9,6 +9,7 @@ public class Transaction {
     public String ID = "monthlyTransaction";
     public String transactionName ="";
 
+
     public Transaction(String transactionName, double cash, String dateString) {
         this.cash = cash;
         this.date = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
