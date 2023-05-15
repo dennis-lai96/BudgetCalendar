@@ -5,6 +5,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class GUI extends JFrame {
@@ -22,13 +25,20 @@ public class GUI extends JFrame {
         expensePanel.add(expenseLabel,BorderLayout.NORTH);
         expensePanel.setPreferredSize(new Dimension(200,50));
 
-        JList<String> expenseList = new JList<>();//stick the list of things in the jlist somehow...
-
-
-
+        DefaultListModel<String> expenseListModel = new DefaultListModel<>();
+        JList<String> expenseList = new JList<>(expenseListModel);//stick the list of things in the jlist somehow...
         JScrollPane expenseScrollPane = new JScrollPane(expenseList);
         expensePanel.add(expenseScrollPane, BorderLayout.CENTER);
 
+        // Listener to display the date depending on which date is chosen on the calendar
+        calendar.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent e) {
+                Date selectedDate = calendar.getDate();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                String formattedDate = dateFormat.format(selectedDate);
+                expenseListModel.addElement(formattedDate);
+            }
+        });
 
         //Empty PAnel
         JPanel emptyPanel = new JPanel(new BorderLayout());
