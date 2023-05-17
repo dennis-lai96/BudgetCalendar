@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Client {
     public String name;
     public int balance;
