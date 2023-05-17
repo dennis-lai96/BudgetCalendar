@@ -40,17 +40,26 @@ public class GUI extends JFrame {
             }
         });
 
-        //Empty PAnel
-        JPanel emptyPanel = new JPanel(new BorderLayout());
-        emptyPanel.setPreferredSize(new Dimension(50,50));
+        //Button panel 1
+        JPanel buttonPanel1 = new JPanel(new FlowLayout());
+        buttonPanel1.setPreferredSize(new Dimension(50,50));
+
+        Button button = new Button("New Transaction");
+        button.setPreferredSize(new Dimension(250,50));
+        buttonPanel1.add(button);
+
+        Button button2 = new Button("Remove Transaction from this month");
+        button2.setPreferredSize(new Dimension(250,50));
+        buttonPanel1.add(button2);
 
         //main panel shit
         this.setTitle("Budget Calendar");
-        this.setLayout(new BorderLayout(50,50));
+        this.setLayout(new BorderLayout(50,10));
         this.setResizable(false); //NO RESIZING FOR YOU.
         //centering
         this.add(calendarPanel,BorderLayout.CENTER);
         this.add(expensePanel,BorderLayout.EAST);
+        this.add(buttonPanel1,BorderLayout.SOUTH);
 
 
         this.pack();
