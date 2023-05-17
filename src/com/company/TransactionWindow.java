@@ -19,7 +19,7 @@ public class TransactionWindow {
     JTextField dateField = new JTextField();
     JTextField amountField = new JTextField();
 
-    TransactionWindow()
+    TransactionWindow(Client client)
     {
         // Creating 
         transactionNameLabel.setBounds(50, 70, 150, 30);

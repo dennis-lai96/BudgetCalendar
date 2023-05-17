@@ -5,15 +5,19 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class GUI extends JFrame {
     private JTextField transactionTextField;
+    private JPanel expensePanel;
+    DefaultListModel<String> expenseListModel;
     GUI(Client client){
         // Calendar Panel
         JPanel calendarPanel = new JPanel(new BorderLayout());
@@ -27,7 +31,7 @@ public class GUI extends JFrame {
         expensePanel.add(expenseLabel,BorderLayout.NORTH);
         expensePanel.setPreferredSize(new Dimension(200,50));
         // Expense list
-        DefaultListModel<String> expenseListModel = new DefaultListModel<>();
+        expenseListModel = new DefaultListModel<>();
         JList<String> expenseList = new JList<>(expenseListModel);//stick the list of things in the jlist somehow...
         // Scrolling for expense box
         JScrollPane expenseScrollPane = new JScrollPane(expenseList);
@@ -39,8 +43,9 @@ public class GUI extends JFrame {
                 Date selectedDate = calendar.getDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
                 String formattedDate = dateFormat.format(selectedDate);
-                expenseListModel.clear();
-                expenseListModel.addElement(formattedDate);
+                //expenseListModel.clear();
+                //expenseListModel.addElement(formattedDate);
+                displayTransactions(client);
             }
         };
         // Action listener for calendar
@@ -62,14 +67,14 @@ public class GUI extends JFrame {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Opening \"Add Transaction\" window...");
-                TransactionWindow window = new TransactionWindow();
+                TransactionWindow window = new TransactionWindow(client);
             }
         });
         // Action listener for button2
         button2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Opening \"Remove Transaction\" window...");
-                removeTransaction window = new removeTransaction();
+                removeTransaction window = new removeTransaction(client);
             }
         });
         //main panel stuff
@@ -92,6 +97,18 @@ public class GUI extends JFrame {
         loginPage.setVisible(true);
         loginPage.toFront();
     }
+
+    //--------------------------------------------------------------------------
+    public void displayTransactions(Client test) {
+        // iterate over the monthlyTransactions map
+        for (Map.Entry<LocalDate, List<Transaction>> entry : test.monthlyTransactions.entrySet()) {
+            List<Transaction> transactions = entry.getValue();
+            for (Transaction transaction : transactions) {
+                expenseListModel.addElement(transaction.toString());
+            }
+        }
+    }
+    //--------------------------------------------------------------------------
 
     private void initializeComponents() {
         // Initialize the GUI 

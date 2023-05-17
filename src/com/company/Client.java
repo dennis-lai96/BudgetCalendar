@@ -36,6 +36,6 @@ public class Client {
             System.out.println(entry.getKey().toString());
             entry.getValue().forEach(System.out::println);
         });
-        System.out.println("The user's balance" + balance);
+        System.out.println("The user's balance: " + balance);
     }
 }

@@ -14,7 +14,7 @@ public class removeTransaction {
     JFrame frame = new JFrame();
     JLabel removeLabel = new JLabel("<html>Please enter the name of the transaction<br>you would like to remove:</html>");
     JTextField removeField = new JTextField();
-    removeTransaction()
+    removeTransaction(Client client)
     {
         removeLabel.setBounds(50, 70, 300, 50);
         removeLabel.setHorizontalAlignment(JLabel.CENTER);
