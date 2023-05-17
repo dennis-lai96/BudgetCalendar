@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class GUI extends JFrame {
+    private JTextField transactionTextField;
+    private TransactionWindow transactionWindow;
     GUI(Client client){
         // Calendar Panel
         JPanel calendarPanel = new JPanel(new BorderLayout());
@@ -61,14 +63,25 @@ public class GUI extends JFrame {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("hooray");
+                TransactionWindow window = new TransactionWindow();
             }
         });
         // Action listener for button2
         button2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("yippee");
+                TransactionWindow window = new TransactionWindow();
             }
         });
+
+        transactionTextField = new JTextField();
+        transactionTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String transactionText = transactionTextField.getText(); 
+            }
+        });
+        expensePanel.add(transactionTextField, BorderLayout.NORTH);
 
         //main panel shit
         this.setTitle("Budget Calendar");
