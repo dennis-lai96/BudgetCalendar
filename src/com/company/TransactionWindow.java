@@ -1,4 +1,6 @@
 package com.company;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.*;
 
@@ -13,7 +15,6 @@ public class TransactionWindow {
     JTextField transactionNameField = new JTextField();
     JTextField dateField = new JTextField();
     JTextField amountField = new JTextField();
-    JTextField textField = new JTextField();
 
     TransactionWindow()
     {
@@ -24,7 +25,10 @@ public class TransactionWindow {
         dateField.setBounds(200, 110, 150, 30);
         amountLabel.setBounds(50, 150, 150, 30);
         amountField.setBounds(200, 150, 150, 30);
-        textField.setHorizontalAlignment(JTextField.CENTER);
+
+        JButton doneButton = new JButton("Done");
+        doneButton.setBounds(200, 200, 100, 30);
+        
 
         JPanel panel = new JPanel(); // create a new JPanel
         panel.setLayout(null); // set the layout to null
@@ -34,12 +38,13 @@ public class TransactionWindow {
         panel.add(dateField);
         panel.add(amountLabel);
         panel.add(amountField);
+        panel.add(doneButton);
         panel.setSize(420, 420); // set the panel size to the same as the frame
 
         frame.add(panel); // add the panel to the frame
 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(420, 420);
+        frame.setSize(400, 300);
         frame.setLayout(null);
         frame.setVisible(true);
     }
