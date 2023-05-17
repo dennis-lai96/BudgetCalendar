@@ -10,49 +10,36 @@ import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class TransactionWindow {
+public class removeTransaction {
     JFrame frame = new JFrame();
-    JLabel transactionNameLabel = new JLabel("Transaction Name:");
-    JLabel dateLabel = new JLabel("Date:");
-    JLabel amountLabel = new JLabel("Amount (Pos or Neg):");
-    JTextField transactionNameField = new JTextField();
-    JTextField dateField = new JTextField();
-    JTextField amountField = new JTextField();
-
-    TransactionWindow()
+    JLabel removeLabel = new JLabel("<html>Please enter the name of the transaction<br>you would like to remove:</html>");
+    JTextField removeField = new JTextField();
+    removeTransaction()
     {
-        // Creating 
-        transactionNameLabel.setBounds(50, 70, 150, 30);
-        transactionNameField.setBounds(200, 70, 150, 30);
-        dateLabel.setBounds(50, 110, 150, 30);
-        dateField.setBounds(200, 110, 150, 30);
-        amountLabel.setBounds(50, 150, 150, 30);
-        amountField.setBounds(200, 150, 150, 30);
+        removeLabel.setBounds(50, 70, 300, 50);
+        removeLabel.setHorizontalAlignment(JLabel.CENTER);
+        removeField.setBounds(50, 150, 300, 30);
 
         JButton doneButton = new JButton("Done");
         doneButton.setBounds(200, 200, 100, 30);
+        doneButton.setHorizontalAlignment(JLabel.CENTER);
 
         doneButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
             }
         });
-        
 
-        JPanel panel = new JPanel(); // create a new JPanel
+        JPanel panel = new JPanel(new FlowLayout()); // create a new JPanel
         panel.setLayout(null); // set the layout to null
-        panel.add(transactionNameLabel);
-        panel.add(transactionNameField);
-        panel.add(dateLabel);
-        panel.add(dateField);
-        panel.add(amountLabel);
-        panel.add(amountField);
         panel.add(doneButton);
+        panel.add(removeLabel);
+        panel.add(removeField);
         panel.setSize(420, 420); // set the panel size to the same as the frame
 
         frame.add(panel); // add the panel to the frame
 
-        frame.setTitle("Add transaction");
+        frame.setTitle("Remove transaction");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLayout(null);

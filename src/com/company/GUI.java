@@ -70,10 +70,10 @@ public class GUI extends JFrame {
         button2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("yippee");
-                TransactionWindow window = new TransactionWindow();
+                removeTransaction window = new removeTransaction();
             }
         });
-
+        /* 
         transactionTextField = new JTextField();
         transactionTextField.addActionListener(new ActionListener() {
             @Override
@@ -82,6 +82,7 @@ public class GUI extends JFrame {
             }
         });
         expensePanel.add(transactionTextField, BorderLayout.NORTH);
+        */
 
         //main panel shit
         this.setTitle("Budget Calendar");
@@ -94,6 +95,7 @@ public class GUI extends JFrame {
 
 
         this.pack();
+        this.setLocationRelativeTo(null);
         this.setVisible(true);//visibility
         calendar.getDayChooser().removePropertyChangeListener(listener);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
