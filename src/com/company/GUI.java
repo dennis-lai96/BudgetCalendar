@@ -73,18 +73,6 @@ public class GUI extends JFrame {
                 removeTransaction window = new removeTransaction();
             }
         });
-        //------------------------------------------------------------------
-        /* 
-        transactionTextField = new JTextField();
-        transactionTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String transactionText = transactionTextField.getText(); 
-            }
-        });
-        expensePanel.add(transactionTextField, BorderLayout.NORTH);
-        */
-        //------------------------------------------------------------------
         //main panel stuff
         this.setTitle(client.name + "'s Budget Calendar");
         this.setLayout(new BorderLayout(50,10));
