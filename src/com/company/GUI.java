@@ -85,8 +85,8 @@ public class GUI extends JFrame {
         expensePanel.add(transactionTextField, BorderLayout.NORTH);
         */
         //------------------------------------------------------------------
-        //main panel shit
-        this.setTitle("Budget Calendar");
+        //main panel stuff
+        this.setTitle(client.name + "'s Budget Calendar");
         this.setLayout(new BorderLayout(50,10));
         this.setResizable(false); //NO RESIZING FOR YOU.
         //centering
