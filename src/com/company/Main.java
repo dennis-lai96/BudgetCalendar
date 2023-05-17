@@ -23,17 +23,11 @@ public class Main {
 
 
         new GUI(JOE);
-        //If any god, deity, lich, demon, devil, lesser spirit, if anything is listening
         //implement
         //a way to list expenses based on the JCALENDAR month using the hashmap, and list that
         // under the "Expenses" section of the GUI
         //meaning you would need an action-listener on the JCALENDAR component to change the expense JLIST.
         // past that, we would need to implement add buttons on the GUI to add/remove a new/old transaction based on the
         // DATE selected on the calendar
-        //....haha...yeah...yeeeeeeeeeaaaaaaaaaaaahhhhhhhh......
-        //but hey, (95% in the class)*(.8 based on the syllabus) means i guarantee pass with a 76 anyways!
-
-
-
     }
 }

@@ -14,21 +14,21 @@ import java.util.*;
 
 public class GUI extends JFrame {
     GUI(Client client){
-
-        //Calendar Panel
+        // Calendar Panel
         JPanel calendarPanel = new JPanel(new BorderLayout());
         JCalendar calendar = new JCalendar();
         calendarPanel.add(calendar);
         calendarPanel.setPreferredSize((new Dimension(300,300)));
 
-        //Expense Panel
+        // Expense Panel
         JPanel expensePanel = new JPanel(new BorderLayout());
         JLabel expenseLabel = new JLabel("Expenses");
         expensePanel.add(expenseLabel,BorderLayout.NORTH);
         expensePanel.setPreferredSize(new Dimension(200,50));
-
+        // Expense list
         DefaultListModel<String> expenseListModel = new DefaultListModel<>();
         JList<String> expenseList = new JList<>(expenseListModel);//stick the list of things in the jlist somehow...
+        // Scrolling for expense box
         JScrollPane expenseScrollPane = new JScrollPane(expenseList);
         expensePanel.add(expenseScrollPane, BorderLayout.CENTER);
 
@@ -42,33 +42,33 @@ public class GUI extends JFrame {
                 expenseListModel.addElement(formattedDate);
             }
         };
+        // Action listener for calendar
         calendar.getDayChooser().addPropertyChangeListener("day", listener);
 
-        //Button panel 1
-        JPanel buttonPanel1 = new JPanel(new FlowLayout());
-        buttonPanel1.setPreferredSize(new Dimension(50,50));
-
+        //Button panel
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setPreferredSize(new Dimension(50,50));
+        //Creating button
         JButton button = new JButton("New Transaction");
         button.setPreferredSize(new Dimension(250,50));
-        buttonPanel1.add(button);
-
+        buttonPanel.add(button);
+        //Creating button2
         JButton button2 = new JButton("Remove Transaction from this month");
         button2.setPreferredSize(new Dimension(250,50));
-        buttonPanel1.add(button2);
+        buttonPanel.add(button2);
 
+        // Action listener for button
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("hooray");
             }
         });
-
+        // Action listener for button2
         button2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("yippee");
             }
         });
-        
-        calendar.getDayChooser().removePropertyChangeListener(listener);
 
         //main panel shit
         this.setTitle("Budget Calendar");
@@ -77,11 +77,12 @@ public class GUI extends JFrame {
         //centering
         this.add(calendarPanel,BorderLayout.CENTER);
         this.add(expensePanel,BorderLayout.EAST);
-        this.add(buttonPanel1,BorderLayout.SOUTH);
+        this.add(buttonPanel,BorderLayout.SOUTH);
 
 
         this.pack();
         this.setVisible(true);//visibility
+        calendar.getDayChooser().removePropertyChangeListener(listener);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
