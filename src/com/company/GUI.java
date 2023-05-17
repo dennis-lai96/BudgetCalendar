@@ -14,7 +14,6 @@ import java.util.*;
 
 public class GUI extends JFrame {
     private JTextField transactionTextField;
-    //private TransactionWindow transactionWindow;
     GUI(Client client){
         // Calendar Panel
         JPanel calendarPanel = new JPanel(new BorderLayout());
