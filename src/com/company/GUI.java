@@ -62,14 +62,14 @@ public class GUI extends JFrame {
         // Action listener for button
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("hooray");
+                System.out.println("Opening \"Add Transaction\" window...");
                 TransactionWindow window = new TransactionWindow();
             }
         });
         // Action listener for button2
         button2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("yippee");
+                System.out.println("Opening \"Remove Transaction\" window...");
                 removeTransaction window = new removeTransaction();
             }
         });
