@@ -5,6 +5,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
@@ -31,26 +33,42 @@ public class GUI extends JFrame {
         expensePanel.add(expenseScrollPane, BorderLayout.CENTER);
 
         // Listener to display the date depending on which date is chosen on the calendar
-        calendar.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
+        PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent e) {
                 Date selectedDate = calendar.getDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
                 String formattedDate = dateFormat.format(selectedDate);
+                expenseListModel.clear();
                 expenseListModel.addElement(formattedDate);
             }
-        });
+        };
+        calendar.getDayChooser().addPropertyChangeListener("day", listener);
 
         //Button panel 1
         JPanel buttonPanel1 = new JPanel(new FlowLayout());
         buttonPanel1.setPreferredSize(new Dimension(50,50));
 
-        Button button = new Button("New Transaction");
+        JButton button = new JButton("New Transaction");
         button.setPreferredSize(new Dimension(250,50));
         buttonPanel1.add(button);
 
-        Button button2 = new Button("Remove Transaction from this month");
+        JButton button2 = new JButton("Remove Transaction from this month");
         button2.setPreferredSize(new Dimension(250,50));
         buttonPanel1.add(button2);
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("hooray");
+            }
+        });
+
+        button2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("yippee");
+            }
+        });
+        
+        calendar.getDayChooser().removePropertyChangeListener(listener);
 
         //main panel shit
         this.setTitle("Budget Calendar");
@@ -65,8 +83,5 @@ public class GUI extends JFrame {
         this.pack();
         this.setVisible(true);//visibility
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-
     }
 }
