@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 public class TransactionWindow {
     JFrame frame = new JFrame();
     JLabel transactionNameLabel = new JLabel("Transaction Name:");
-    JLabel dateLabel = new JLabel("Date:");
+    JLabel dateLabel = new JLabel("Date (MM-DD-YYYY):");
     JLabel amountLabel = new JLabel("Amount (Pos or Neg):");
     JTextField transactionNameField = new JTextField();
     JTextField dateField = new JTextField();

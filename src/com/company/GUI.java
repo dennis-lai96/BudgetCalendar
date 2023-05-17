@@ -16,8 +16,6 @@ public class GUI extends JFrame {
     private JTextField transactionTextField;
     //private TransactionWindow transactionWindow;
     GUI(Client client){
-        LoginPage loginPage = new LoginPage();
-        loginPage.setVisible(true);
         // Calendar Panel
         JPanel calendarPanel = new JPanel(new BorderLayout());
         JCalendar calendar = new JCalendar();
@@ -102,6 +100,10 @@ public class GUI extends JFrame {
         this.setVisible(true);//visibility
         calendar.getDayChooser().removePropertyChangeListener(listener);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        LoginPage loginPage = new LoginPage();
+        loginPage.setVisible(true);
+        loginPage.toFront();
     }
 
     private void initializeComponents() {
@@ -115,7 +117,7 @@ public class GUI extends JFrame {
 
     public LoginPage() {
         setTitle("Login");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(300, 200);
         setLocationRelativeTo(null);
 
