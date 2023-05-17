@@ -14,8 +14,10 @@ import java.util.*;
 
 public class GUI extends JFrame {
     private JTextField transactionTextField;
-    private TransactionWindow transactionWindow;
+    //private TransactionWindow transactionWindow;
     GUI(Client client){
+        LoginPage loginPage = new LoginPage();
+        loginPage.setVisible(true);
         // Calendar Panel
         JPanel calendarPanel = new JPanel(new BorderLayout());
         JCalendar calendar = new JCalendar();
@@ -73,6 +75,7 @@ public class GUI extends JFrame {
                 removeTransaction window = new removeTransaction();
             }
         });
+        //------------------------------------------------------------------
         /* 
         transactionTextField = new JTextField();
         transactionTextField.addActionListener(new ActionListener() {
@@ -83,7 +86,7 @@ public class GUI extends JFrame {
         });
         expensePanel.add(transactionTextField, BorderLayout.NORTH);
         */
-
+        //------------------------------------------------------------------
         //main panel shit
         this.setTitle("Budget Calendar");
         this.setLayout(new BorderLayout(50,10));
@@ -100,4 +103,61 @@ public class GUI extends JFrame {
         calendar.getDayChooser().removePropertyChangeListener(listener);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    private void initializeComponents() {
+        // Initialize the GUI 
+        transactionTextField = new JTextField();
+    }
+
+    class LoginPage extends JFrame {
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+
+    public LoginPage() {
+        setTitle("Login");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 200);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel usernameLabel = new JLabel("Username:");
+        JLabel passwordLabel = new JLabel("Password:");
+
+        usernameField = new JTextField();
+        passwordField = new JPasswordField();
+
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+
+                // Check credentials
+                if (username.equals("admin") && password.equals("password")) {
+                    JOptionPane.showMessageDialog(null, "Login Successful");
+                    setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid username or password");
+                }
+            }
+        });
+
+        panel.add(usernameLabel);
+        panel.add(usernameField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+        panel.add(loginButton);
+
+        add(panel);
+        setVisible(true);
+    }
+
+    public boolean authenticate() {
+        return true; 
+    }
 }
+}
+
