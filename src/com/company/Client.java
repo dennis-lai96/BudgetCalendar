@@ -24,11 +24,6 @@ public class Client {
         this.balance = balance;
     }
 
-    public void setIncome(Transaction transaction, double money)
-    {
-        transaction.setIncome(money);
-    }
-
     public void addTransaction(Transaction transaction) {
         transaction.addmoney(transaction.cash);
         transaction.addname(transaction.transactionName);

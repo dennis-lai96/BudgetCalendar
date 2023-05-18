@@ -23,11 +23,5 @@ public class Main {
 
 
         new GUI(JOE);
-        // implement
-        // a way to list expenses based on the JCALENDAR month using the hashmap, and list that
-        // under the "Expenses" section of the GUI
-        // meaning you would need an action-listener on the JCALENDAR component to change the expense JLIST.
-        // past that, we would need to implement add buttons on the GUI to add/remove a new/old transaction based on the
-        // DATE selected on the calendar
     }
 }

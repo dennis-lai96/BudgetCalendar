@@ -1,5 +1,5 @@
 package com.company;
-
+// Importing everything
 import com.toedter.calendar.JCalendar;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -32,11 +32,15 @@ public class GUI extends JFrame {
         expensePanel.add(expenseLabel,BorderLayout.NORTH);
         expensePanel.setPreferredSize(new Dimension(200,50));
 
+        //Expense list to add expenses
         DefaultListModel<String> dlm = new DefaultListModel<String>();
         JList <String> expenseList = new JList<String>(dlm);
 
+        //Allowing the user to scroll if they input enough expenses
         JScrollPane expenseScrollPane = new JScrollPane(expenseList);
         expensePanel.add(expenseScrollPane, BorderLayout.CENTER);
+
+        //Action-listener for the calendar object
         calendar.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent e) {
                 Date selectedDate = calendar.getDate();
@@ -44,7 +48,6 @@ public class GUI extends JFrame {
                 formattedDate = dateFormat.format(selectedDate);
                 if(client.findTransaction(formattedDate)==true){
                 dlm.clear();
-                //dlm.addElement(formattedDate);
                 for(int i=0;i<20;i++){
                   if(client.getTransaction(client.getlocation()).getname(i)==null){
                     break;
@@ -59,33 +62,34 @@ public class GUI extends JFrame {
                 }
                 else{
                   dlm.clear();
-                  //dlm.addElement(formattedDate);
                 }
             }
         });
 
-        //Empty PAnel
-        JPanel emptyPanel = new JPanel(new BorderLayout());
-        emptyPanel.setPreferredSize(new Dimension(50,50));
-
-        //main panel shit
-        this.setTitle(client.name + "'s Budget Calendar");
+        //main panel stuff
+        this.setTitle(client.name + "\'s Budget Calendar");
         this.setLayout(new BorderLayout(50,50));
         this.setResizable(false); //NO RESIZING FOR YOU.
-        //centering
+
+        //centering panels
         this.add(calendarPanel,BorderLayout.CENTER);
         this.add(expensePanel,BorderLayout.EAST);
-        //button to add elements to jlist
+
+        //Declaring buttons
         JPanel buttonPanel1 = new JPanel(new BorderLayout());
         buttonPanel1.setPreferredSize(new Dimension(200, 160));
         JPanel topButtonPanel = new JPanel(new FlowLayout());
         JPanel middlePanel = new JPanel(new FlowLayout());
         middlePanel.setPreferredSize(new Dimension(250,50));
         JPanel bottomButtonPanel = new JPanel(new FlowLayout());
+
+        //Declaring TextFields
         JTextField transactionName = new JTextField();
         transactionName.setText("Transaction Name");
         JTextField transactionAmount = new JTextField();
         transactionAmount.setText("Transaction Amount");
+
+        //Listener for "Add Transaction" button
         JButton addButton = new JButton( new AbstractAction("Add Transaction") {
                     @Override
                     public void actionPerformed( ActionEvent e ) {
@@ -110,6 +114,8 @@ public class GUI extends JFrame {
 
                     }
                 });
+
+        //Listener for "Remove Transaction" button
         JButton subButton = new JButton( new AbstractAction("Remove Transaction") { 
                   @Override
                   public void actionPerformed( ActionEvent e ) {
@@ -130,23 +136,35 @@ public class GUI extends JFrame {
                   }
                   }
         });
+
+        //Listener for "Set Income" button
         JButton incomeButton = new JButton( new AbstractAction("Set Income") {
         @Override
           public void actionPerformed( ActionEvent e ) {
-            //client.setIncome(trans, 150);
+            /* 
+            if(client.findTransaction(formattedDate)==true){
+              client.findTransaction(formattedDate).setIncome(150);
+            }
+            */
+            System.out.println("hi!");
         }
         });
+
+        //Listener for "Get Balance" button
         JButton balanceButton = new JButton( new AbstractAction("Get Balance") {
           @Override
             public void actionPerformed( ActionEvent e ) {
               dlm.addElement("Your current balance is $" +client.getbalance());
           }
           });
-        //Adding panels and buttons
+
+        //Adding TextFields to sub panel
         transactionName.setPreferredSize(new Dimension(200, 30));
         transactionAmount.setPreferredSize(new Dimension(200, 30));
         middlePanel.add(transactionName);
         middlePanel.add(transactionAmount);
+
+        //Adding buttons to sub panels
         incomeButton.setPreferredSize(new Dimension(250,50));
         topButtonPanel.add(incomeButton);
         balanceButton.setPreferredSize(new Dimension(250,50));
@@ -155,15 +173,19 @@ public class GUI extends JFrame {
         bottomButtonPanel.add(addButton);
         subButton.setPreferredSize(new Dimension(250,50));
         bottomButtonPanel.add(subButton);
+
+        //Adding sub panels to main panel
         buttonPanel1.add(topButtonPanel, BorderLayout.NORTH);
         buttonPanel1.add(middlePanel, BorderLayout.CENTER);
         buttonPanel1.add(bottomButtonPanel, BorderLayout.SOUTH);
-        this.add(buttonPanel1,BorderLayout.SOUTH);
-                
+        
+        //Adding main panel to GUI
+        this.add(buttonPanel1,BorderLayout.SOUTH);        
         this.pack();
         this.setVisible(true);//visibility
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //Creating login page
         LoginPage loginPage = new LoginPage();
         if (loginPage.authenticate()) {
             // Proceed with the main application
@@ -174,11 +196,13 @@ public class GUI extends JFrame {
         }
     }
 
+    //Initializing login page GUI
     private void initializeComponents() {
       // Initialize the GUI 
       transactionTextField = new JTextField();
   }
 
+  //Class for LoginPage
   private class LoginPage extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -215,6 +239,7 @@ public class GUI extends JFrame {
             }
         });
 
+        //Adding Labels and TextFields to LoginPage panel
         panel.add(usernameLabel);
         panel.add(usernameField);
         panel.add(passwordLabel);
@@ -225,6 +250,7 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
+    //Authenticating login information
     public boolean authenticate() {
         return true; 
     }
