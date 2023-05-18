@@ -16,15 +16,15 @@ import java.text.SimpleDateFormat;
 
 
 public class GUI extends JFrame {
-  String formattedDate;
+    String formattedDate;
     GUI(Client client){
-      
+
         //Calendar Panel
         JPanel calendarPanel = new JPanel(new BorderLayout());
         JCalendar calendar = new JCalendar();
         calendarPanel.add(calendar);
         calendarPanel.setPreferredSize((new Dimension(300,300)));
-        
+
         //Expense Panel
         JPanel expensePanel = new JPanel(new BorderLayout());
         JLabel expenseLabel = new JLabel("Expenses");
@@ -42,23 +42,23 @@ public class GUI extends JFrame {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 formattedDate = dateFormat.format(selectedDate);
                 if(client.findTransaction(formattedDate)==true){
-                dlm.clear();
-                //dlm.addElement(formattedDate);
-                for(int i=0;i<20;i++){
-                  if(client.getTransaction(client.getlocation()).getname(i)==null){
-                    break;
-                  }
-                  if(client.getTransaction(client.getlocation()).getcash(i).equals("0.0")){
-                    break;
-                  }
-                  dlm.addElement(client.getTransaction(client.getlocation()).getname(i));
-                  dlm.addElement(client.getTransaction(client.getlocation()).getcash(i));
-                }
-                
+                    dlm.clear();
+                    //dlm.addElement(formattedDate);
+                    for(int i=0;i<20;i++){
+                        if(client.getTransaction(client.getlocation()).getname(i)==null){
+                            break;
+                        }
+                        if(client.getTransaction(client.getlocation()).getcash(i).equals("0.0")){
+                            break;
+                        }
+                        dlm.addElement(client.getTransaction(client.getlocation()).getname(i));
+                        dlm.addElement(client.getTransaction(client.getlocation()).getcash(i));
+                    }
+
                 }
                 else{
-                  dlm.clear();
-                  //dlm.addElement(formattedDate);
+                    dlm.clear();
+                    //dlm.addElement(formattedDate);
                 }
             }
         });
@@ -84,56 +84,61 @@ public class GUI extends JFrame {
         JTextField transactionName = new JTextField();
         JTextField transactionAmount = new JTextField();
         JButton addButton = new JButton( new AbstractAction("Add") {
-                    @Override
-                    public void actionPerformed( ActionEvent e ) {
-                        // add Action
-                        Transaction trans=new Transaction("Electricity Bill",5, formattedDate);
-                        if(client.findTransaction(formattedDate)==true){
-                          double newamount= 15;
-                          String transname= "school";
-                          client.getTransaction(client.getlocation()).addmoney(newamount);
-                          client.getTransaction(client.getlocation()).addname(transname);
-                          dlm.addElement(transname);
-                          dlm.addElement(String.valueOf(newamount));
-                          client.addbalance(newamount);
-                          dlm.addElement(client.getbalance());
-                        }else{
-                        client.addTransaction(trans);
-                        client.saveTransaction(trans);
-                        dlm.addElement(client.getTransaction(0).getcash());
-                        dlm.addElement(client.getbalance());
-                        }
+            @Override
+            public void actionPerformed( ActionEvent e ) {
+                // add Action
+                Transaction trans=new Transaction("Electricity Bill",5, formattedDate);
+                if(client.findTransaction(formattedDate)==true){
+                    double newamount= 15;
+                    String transname= "school";
+                    client.getTransaction(client.getlocation()).addmoney(newamount);
+                    client.getTransaction(client.getlocation()).addname(transname);
+                    dlm.addElement(transname);
+                    dlm.addElement(String.valueOf(newamount));
+                    client.addbalance(newamount);
+                    dlm.addElement(client.getbalance());
+                }else{
+                    client.addTransaction(trans);
+                    client.saveTransaction(trans);
+                    dlm.addElement(client.getTransaction(0).getcash());
+                    dlm.addElement(client.getbalance());
+                }
 
-                    }
-                });
-        JButton subButton = new JButton( new AbstractAction("Substract") { 
-                  @Override
-                  public void actionPerformed( ActionEvent e ) {
-                      // substract Action
-                      dlm.removeElement("15.0");
-                      if(client.getTransaction(client.getlocation()).findmoney(15)==true && client.getTransaction(client.getlocation()).findname("school")==true){
-                        
-                      }
-                  else{
+            }
+        });
+        JButton subButton = new JButton( new AbstractAction("substract") {
+            @Override
+            public void actionPerformed( ActionEvent e ) {
+
+                if(client.getTransaction(client.getlocation()).findmoney(15)==true && client.getTransaction(client.getlocation()).findname("school")==true){
+                    int moneylocal=client.getTransaction(client.getlocation()).getmoneylocation();
+                    int namelocal= client.getTransaction(client.getlocation()).getnamelocation();
+                    client.getTransaction(client.getlocation()).removeMoney(moneylocal);
+                    client.getTransaction(client.getlocation()).removeName(namelocal);
+                    // substract Action
+                    dlm.removeElement("school");
+                    dlm.removeElement("15.0");
+                    dlm.addElement("Transaction Removed");
+                }
+                else{
                     dlm.addElement("Transaction not found");
-                  }
-                  }
-                  
+                }
+            }
         });
         JButton incomeButton = new JButton( new AbstractAction("Set Income") {
-        @Override
-          public void actionPerformed( ActionEvent e ) {
-            //client.setIncome(trans, 150);
-            System.out.println("Income has been set!");
-        }
+            @Override
+            public void actionPerformed( ActionEvent e ) {
+                //client.setIncome(trans, 150);
+                System.out.println("Income has been set!");
+            }
         });
         JButton balanceButton = new JButton( new AbstractAction("Get Balance") {
-          @Override
+            @Override
             public void actionPerformed( ActionEvent e ) {
-              System.out.println(client.getbalance());
-              System.out.println("Retrieved Balance!");
-          }
-          });
+                System.out.println(client.getbalance());
+                System.out.println("Retrieved Balance!");
+            }
+        });
         //Adding panels and buttons
         transactionName.setPreferredSize(new Dimension(200, 30));
         transactionAmount.setPreferredSize(new Dimension(200, 30));
@@ -151,7 +156,7 @@ public class GUI extends JFrame {
         buttonPanel1.add(middlePanel, BorderLayout.CENTER);
         buttonPanel1.add(bottomButtonPanel, BorderLayout.SOUTH);
         this.add(buttonPanel1,BorderLayout.SOUTH);
-                
+
         this.pack();
         this.setVisible(true);//visibility
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
