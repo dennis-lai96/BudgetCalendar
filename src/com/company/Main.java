@@ -16,9 +16,9 @@ public class Main {
 
         Client JOE = new Client("JOE GOLDBERG",0);
 
-        JOE.addTransaction(utilityBill);
-        JOE.addTransaction(MOWING);
-        JOE.printTransactions();
+        //JOE.addTransaction(utilityBill);
+        //JOE.addTransaction(MOWING);
+        //JOE.printTransactions();
 
 
 

@@ -75,19 +75,25 @@ public class GUI extends JFrame {
         this.add(calendarPanel,BorderLayout.CENTER);
         this.add(expensePanel,BorderLayout.EAST);
 
-        //Declaring buttons
+        //Declaring panels
         JPanel buttonPanel1 = new JPanel(new BorderLayout());
         buttonPanel1.setPreferredSize(new Dimension(200, 160));
         JPanel topButtonPanel = new JPanel(new FlowLayout());
+        topButtonPanel.setPreferredSize(new Dimension(200,60));
         JPanel middlePanel = new JPanel(new FlowLayout());
         middlePanel.setPreferredSize(new Dimension(250,50));
         JPanel bottomButtonPanel = new JPanel(new FlowLayout());
+
+        JPanel testPanel = new JPanel(new FlowLayout());
+        testPanel.setPreferredSize(new Dimension(250,50));
 
         //Declaring TextFields
         JTextField transactionName = new JTextField();
         transactionName.setText("Transaction Name");
         JTextField transactionAmount = new JTextField();
         transactionAmount.setText("Transaction Amount");
+        JTextField incomeField = new JTextField();
+        incomeField.setText("Set Income");
 
         //Listener for "Add Transaction" button
         JButton addButton = new JButton( new AbstractAction("Add Transaction") {
@@ -141,12 +147,17 @@ public class GUI extends JFrame {
         JButton incomeButton = new JButton( new AbstractAction("Set Income") {
         @Override
           public void actionPerformed( ActionEvent e ) {
-            /* 
-            if(client.findTransaction(formattedDate)==true){
-              client.findTransaction(formattedDate).setIncome(150);
+            if(client.findTransaction(formattedDate) == true)
+            {
+              //Transaction temp = client.getTransaction(client.getlocation());
+              //temp.cash = Double.parseDouble(incomeField.getText());
+              Double text = Double.parseDouble(incomeField.getText());
+              client.getTransaction(client.getlocation()).setIncome(text);
+              dlm.addElement("Set income!");
             }
-            */
-            System.out.println("hi!");
+            else{
+              dlm.addElement("Could not set income.");
+            }
         }
         });
 
@@ -161,8 +172,10 @@ public class GUI extends JFrame {
         //Adding TextFields to sub panel
         transactionName.setPreferredSize(new Dimension(200, 30));
         transactionAmount.setPreferredSize(new Dimension(200, 30));
+        incomeField.setPreferredSize(new Dimension(200, 30));
         middlePanel.add(transactionName);
         middlePanel.add(transactionAmount);
+        testPanel.add(incomeField);
 
         //Adding buttons to sub panels
         incomeButton.setPreferredSize(new Dimension(250,50));
@@ -180,6 +193,7 @@ public class GUI extends JFrame {
         buttonPanel1.add(bottomButtonPanel, BorderLayout.SOUTH);
         
         //Adding main panel to GUI
+        this.add(testPanel, BorderLayout.NORTH);
         this.add(buttonPanel1,BorderLayout.SOUTH);        
         this.pack();
         this.setVisible(true);//visibility
