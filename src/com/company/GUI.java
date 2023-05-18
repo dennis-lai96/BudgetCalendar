@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 
 public class GUI extends JFrame {
   String formattedDate;
+  private JTextField transactionTextField;
     GUI(Client client){
       
         //Calendar Panel
@@ -82,56 +83,63 @@ public class GUI extends JFrame {
         middlePanel.setPreferredSize(new Dimension(250,50));
         JPanel bottomButtonPanel = new JPanel(new FlowLayout());
         JTextField transactionName = new JTextField();
+        transactionName.setText("Transaction Name");
         JTextField transactionAmount = new JTextField();
-        JButton addButton = new JButton( new AbstractAction("Add") {
+        transactionAmount.setText("Transaction Amount");
+        JButton addButton = new JButton( new AbstractAction("Add Transaction") {
                     @Override
                     public void actionPerformed( ActionEvent e ) {
                         // add Action
-                        Transaction trans=new Transaction("Electricity Bill",5, formattedDate);
+                        double newamount=  Double.valueOf(transactionAmount.getText());
+                        String transname= transactionName.getText();
+                        Transaction trans=new Transaction(transname,newamount, formattedDate);
                         if(client.findTransaction(formattedDate)==true){
-                          double newamount= 15;
-                          String transname= "school";
+
                           client.getTransaction(client.getlocation()).addmoney(newamount);
                           client.getTransaction(client.getlocation()).addname(transname);
                           dlm.addElement(transname);
-                          dlm.addElement(String.valueOf(newamount));
+                          dlm.addElement("$"+String.valueOf(newamount));
                           client.addbalance(newamount);
-                          dlm.addElement(client.getbalance());
                         }else{
+                        
                         client.addTransaction(trans);
                         client.saveTransaction(trans);
-                        dlm.addElement(client.getTransaction(0).getcash());
-                        dlm.addElement(client.getbalance());
+                        dlm.addElement(transname);
+                        dlm.addElement("$"+newamount);
                         }
 
                     }
                 });
-        JButton subButton = new JButton( new AbstractAction("Substract") { 
+        JButton subButton = new JButton( new AbstractAction("Remove Transaction") { 
                   @Override
                   public void actionPerformed( ActionEvent e ) {
+                    double newamount=  Double.valueOf(transactionAmount.getText());
+                    String transname= transactionName.getText();
+                      if(client.getTransaction(client.getlocation()).findmoney(newamount)==true && client.getTransaction(client.getlocation()).findname(transname)==true){
+                        int moneylocal=client.getTransaction(client.getlocation()).getmoneylocation();
+                        int namelocal= client.getTransaction(client.getlocation()).getnamelocation();
+                        client.getTransaction(client.getlocation()).removeMoney(moneylocal);
+                        client.getTransaction(client.getlocation()).removeName(namelocal);
                       // substract Action
-                      dlm.removeElement("15.0");
-                      if(client.getTransaction(client.getlocation()).findmoney(15)==true && client.getTransaction(client.getlocation()).findname("school")==true){
-                        
+                      dlm.removeElement(transname);
+                      dlm.removeElement("$"+String.valueOf(newamount));
+                      dlm.addElement("Transaction Removed");
                       }
                   else{
                     dlm.addElement("Transaction not found");
                   }
                   }
-                  
         });
         JButton incomeButton = new JButton( new AbstractAction("Set Income") {
         @Override
           public void actionPerformed( ActionEvent e ) {
             //client.setIncome(trans, 150);
-            System.out.println("Income has been set!");
         }
         });
         JButton balanceButton = new JButton( new AbstractAction("Get Balance") {
           @Override
             public void actionPerformed( ActionEvent e ) {
-              System.out.println(client.getbalance());
-              System.out.println("Retrieved Balance!");
+              dlm.addElement("Your current balance is $" +client.getbalance());
           }
           });
         //Adding panels and buttons
@@ -155,5 +163,70 @@ public class GUI extends JFrame {
         this.pack();
         this.setVisible(true);//visibility
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        LoginPage loginPage = new LoginPage();
+        if (loginPage.authenticate()) {
+            // Proceed with the main application
+            initializeComponents();
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid username or password. Exiting the application.");
+            System.exit(0);
+        }
     }
+
+    private void initializeComponents() {
+      // Initialize the GUI 
+      transactionTextField = new JTextField();
+  }
+
+  private class LoginPage extends JFrame {
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+
+    public LoginPage() {
+        setTitle("Login");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 200);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel usernameLabel = new JLabel("Username:");
+        JLabel passwordLabel = new JLabel("Password:");
+
+        usernameField = new JTextField();
+        passwordField = new JPasswordField();
+
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+
+                // Check credentials
+                if (username.equals("admin") && password.equals("password")) {
+                    JOptionPane.showMessageDialog(null, "Login Successful");
+                    setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid username or password");
+                }
+            }
+        });
+
+        panel.add(usernameLabel);
+        panel.add(usernameField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+        panel.add(loginButton);
+
+        add(panel);
+        setVisible(true);
+    }
+
+    public boolean authenticate() {
+        return true; 
+    }
+}
 }
