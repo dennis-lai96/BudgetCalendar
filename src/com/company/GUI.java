@@ -5,164 +5,155 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.List;
+import java.util.*;
+import javax.swing.DefaultListModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
+
+
 
 public class GUI extends JFrame {
-    private JTextField transactionTextField;
-    private JPanel expensePanel;
-    DefaultListModel<String> expenseListModel;
+  String formattedDate;
     GUI(Client client){
-        // Calendar Panel
+      
+        //Calendar Panel
         JPanel calendarPanel = new JPanel(new BorderLayout());
         JCalendar calendar = new JCalendar();
         calendarPanel.add(calendar);
         calendarPanel.setPreferredSize((new Dimension(300,300)));
-
-        // Expense Panel
+        
+        //Expense Panel
         JPanel expensePanel = new JPanel(new BorderLayout());
         JLabel expenseLabel = new JLabel("Expenses");
         expensePanel.add(expenseLabel,BorderLayout.NORTH);
         expensePanel.setPreferredSize(new Dimension(200,50));
-        // Expense list
-        expenseListModel = new DefaultListModel<>();
-        JList<String> expenseList = new JList<>(expenseListModel);//stick the list of things in the jlist somehow...
-        // Scrolling for expense box
+
+        DefaultListModel<String> dlm = new DefaultListModel<String>();
+        JList <String> expenseList = new JList<String>(dlm);
+
         JScrollPane expenseScrollPane = new JScrollPane(expenseList);
         expensePanel.add(expenseScrollPane, BorderLayout.CENTER);
-
-        // Listener to display the date depending on which date is chosen on the calendar
-        PropertyChangeListener listener = new PropertyChangeListener() {
+        calendar.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent e) {
                 Date selectedDate = calendar.getDate();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-                String formattedDate = dateFormat.format(selectedDate);
-                //expenseListModel.clear();
-                //expenseListModel.addElement(formattedDate);
-                displayTransactions(client);
-            }
-        };
-        // Action listener for calendar
-        calendar.getDayChooser().addPropertyChangeListener("day", listener);
-
-        //Button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setPreferredSize(new Dimension(50,50));
-        //Creating button
-        JButton button = new JButton("New Transaction");
-        button.setPreferredSize(new Dimension(250,50));
-        buttonPanel.add(button);
-        //Creating button2
-        JButton button2 = new JButton("Remove Transaction from this month");
-        button2.setPreferredSize(new Dimension(250,50));
-        buttonPanel.add(button2);
-
-        // Action listener for button
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Opening \"Add Transaction\" window...");
-                TransactionWindow window = new TransactionWindow(client);
-            }
-        });
-        // Action listener for button2
-        button2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Opening \"Remove Transaction\" window...");
-                removeTransaction window = new removeTransaction(client);
-            }
-        });
-        //main panel stuff
-        this.setTitle(client.name + "'s Budget Calendar");
-        this.setLayout(new BorderLayout(50,10));
-        this.setResizable(false); //NO RESIZING FOR YOU.
-        //centering
-        this.add(calendarPanel,BorderLayout.CENTER);
-        this.add(expensePanel,BorderLayout.EAST);
-        this.add(buttonPanel,BorderLayout.SOUTH);
-
-
-        this.pack();
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);//visibility
-        calendar.getDayChooser().removePropertyChangeListener(listener);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        LoginPage loginPage = new LoginPage();
-        loginPage.setVisible(true);
-        loginPage.toFront();
-    }
-
-    //--------------------------------------------------------------------------
-    public void displayTransactions(Client test) {
-        // iterate over the monthlyTransactions map
-        for (Map.Entry<LocalDate, List<Transaction>> entry : test.monthlyTransactions.entrySet()) {
-            List<Transaction> transactions = entry.getValue();
-            for (Transaction transaction : transactions) {
-                expenseListModel.addElement(transaction.toString());
-            }
-        }
-    }
-    //--------------------------------------------------------------------------
-
-    private void initializeComponents() {
-        // Initialize the GUI 
-        transactionTextField = new JTextField();
-    }
-
-    class LoginPage extends JFrame {
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-
-    public LoginPage() {
-        setTitle("Login");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(300, 200);
-        setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JLabel usernameLabel = new JLabel("Username:");
-        JLabel passwordLabel = new JLabel("Password:");
-
-        usernameField = new JTextField();
-        passwordField = new JPasswordField();
-
-        JButton loginButton = new JButton("Login");
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                String password = new String(passwordField.getPassword());
-
-                // Check credentials
-                if (username.equals("admin") && password.equals("password")) {
-                    JOptionPane.showMessageDialog(null, "Login Successful");
-                    setVisible(false);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Invalid username or password");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                formattedDate = dateFormat.format(selectedDate);
+                if(client.findTransaction(formattedDate)==true){
+                dlm.clear();
+                //dlm.addElement(formattedDate);
+                for(int i=0;i<20;i++){
+                  if(client.getTransaction(client.getlocation()).getname(i)==null){
+                    break;
+                  }
+                  if(client.getTransaction(client.getlocation()).getcash(i).equals("0.0")){
+                    break;
+                  }
+                  dlm.addElement(client.getTransaction(client.getlocation()).getname(i));
+                  dlm.addElement(client.getTransaction(client.getlocation()).getcash(i));
+                }
+                
+                }
+                else{
+                  dlm.clear();
+                  //dlm.addElement(formattedDate);
                 }
             }
         });
 
-        panel.add(usernameLabel);
-        panel.add(usernameField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
-        panel.add(loginButton);
+        //Empty PAnel
+        JPanel emptyPanel = new JPanel(new BorderLayout());
+        emptyPanel.setPreferredSize(new Dimension(50,50));
 
-        add(panel);
-        setVisible(true);
-    }
+        //main panel shit
+        this.setTitle(client.name + "'s Budget Calendar");
+        this.setLayout(new BorderLayout(50,50));
+        this.setResizable(false); //NO RESIZING FOR YOU.
+        //centering
+        this.add(calendarPanel,BorderLayout.CENTER);
+        this.add(expensePanel,BorderLayout.EAST);
+        //button to add elements to jlist
+        JPanel buttonPanel1 = new JPanel(new BorderLayout());
+        buttonPanel1.setPreferredSize(new Dimension(200, 160));
+        JPanel topButtonPanel = new JPanel(new FlowLayout());
+        JPanel middlePanel = new JPanel(new FlowLayout());
+        middlePanel.setPreferredSize(new Dimension(250,50));
+        JPanel bottomButtonPanel = new JPanel(new FlowLayout());
+        JTextField transactionName = new JTextField();
+        JTextField transactionAmount = new JTextField();
+        JButton addButton = new JButton( new AbstractAction("Add") {
+                    @Override
+                    public void actionPerformed( ActionEvent e ) {
+                        // add Action
+                        Transaction trans=new Transaction("Electricity Bill",5, formattedDate);
+                        if(client.findTransaction(formattedDate)==true){
+                          double newamount= 15;
+                          String transname= "school";
+                          client.getTransaction(client.getlocation()).addmoney(newamount);
+                          client.getTransaction(client.getlocation()).addname(transname);
+                          dlm.addElement(transname);
+                          dlm.addElement(String.valueOf(newamount));
+                          client.addbalance(newamount);
+                          dlm.addElement(client.getbalance());
+                        }else{
+                        client.addTransaction(trans);
+                        client.saveTransaction(trans);
+                        dlm.addElement(client.getTransaction(0).getcash());
+                        dlm.addElement(client.getbalance());
+                        }
 
-    public boolean authenticate() {
-        return true; 
+                    }
+                });
+        JButton subButton = new JButton( new AbstractAction("Substract") { 
+                  @Override
+                  public void actionPerformed( ActionEvent e ) {
+                      // substract Action
+                      dlm.removeElement("15.0");
+                      if(client.getTransaction(client.getlocation()).findmoney(15)==true && client.getTransaction(client.getlocation()).findname("school")==true){
+                        
+                      }
+                  else{
+                    dlm.addElement("Transaction not found");
+                  }
+                  }
+                  
+        });
+        JButton incomeButton = new JButton( new AbstractAction("Set Income") {
+        @Override
+          public void actionPerformed( ActionEvent e ) {
+            //client.setIncome(trans, 150);
+            System.out.println("Income has been set!");
+        }
+        });
+        JButton balanceButton = new JButton( new AbstractAction("Get Balance") {
+          @Override
+            public void actionPerformed( ActionEvent e ) {
+              System.out.println(client.getbalance());
+              System.out.println("Retrieved Balance!");
+          }
+          });
+        //Adding panels and buttons
+        transactionName.setPreferredSize(new Dimension(200, 30));
+        transactionAmount.setPreferredSize(new Dimension(200, 30));
+        middlePanel.add(transactionName);
+        middlePanel.add(transactionAmount);
+        incomeButton.setPreferredSize(new Dimension(250,50));
+        topButtonPanel.add(incomeButton);
+        balanceButton.setPreferredSize(new Dimension(250,50));
+        topButtonPanel.add(balanceButton);
+        addButton.setPreferredSize(new Dimension(250,50));
+        bottomButtonPanel.add(addButton);
+        subButton.setPreferredSize(new Dimension(250,50));
+        bottomButtonPanel.add(subButton);
+        buttonPanel1.add(topButtonPanel, BorderLayout.NORTH);
+        buttonPanel1.add(middlePanel, BorderLayout.CENTER);
+        buttonPanel1.add(bottomButtonPanel, BorderLayout.SOUTH);
+        this.add(buttonPanel1,BorderLayout.SOUTH);
+                
+        this.pack();
+        this.setVisible(true);//visibility
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-}
 }
